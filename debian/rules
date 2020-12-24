@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure-arch:
+	dh_auto_configure -- -DBUILD_CODE_GEN=ON -DBUILD_TESTS=ON
+
+override_dh_auto_test-arch:
+	-kill -9 $$(cat /tmp/sdbuscpp.pid)
+	-rm -v debian/dbus.conf /tmp/sdbuscpp_bus /tmp/sdbuscpp.pid
+
+	cp /usr/share/dbus-1/system.conf debian/dbus.conf
+	sed -i '/<listen>/c <listen>unix:path=\/tmp\/sdbuscpp_bus<\/listen>' debian/dbus.conf
+	sed -i '/<pidfile>/c <pidfile>\/tmp\/sdbuscpp.pid<\/pidfile>' debian/dbus.conf
+	sed -i 's|</busconfig>|<includedir>$(CURDIR)/tests/integrationtests/files/</includedir></busconfig>|g' debian/dbus.conf
+	dbus-daemon --config-file debian/dbus.conf --fork
+
+	DBUS_SYSTEM_BUS_ADDRESS=unix:path=/tmp/sdbuscpp_bus dh_auto_test --no-parallel
+
+	-kill -9 $$(cat /tmp/sdbuscpp.pid)
+	-rm -v debian/dbus.conf /tmp/sdbuscpp_bus /tmp/sdbuscpp.pid
+
+override_dh_auto_configure-indep:
+	dh_auto_configure -- -DBUILD_DOXYGEN_DOC=ON
+
+override_dh_auto_build-indep:
+	dh_auto_build -- doc
+
+override_dh_auto_install-indep:
+	dh_auto_install -- -C docs
+
+override_dh_auto_test-indep:

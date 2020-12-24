@@ -1,0 +1,23 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Fri, 25 Dec 2020 02:16:40 +0800
+Subject: use local googletest
+
+---
+ tests/CMakeLists.txt | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index 97f7c1a..5902f5c 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -6,9 +6,7 @@ include(FetchContent)
+ 
+ message("Fetching googletest...")
+ FetchContent_Declare(googletest
+-                     GIT_REPOSITORY https://github.com/google/googletest.git
+-                     GIT_TAG        master
+-                     GIT_SHALLOW    1
++                     SOURCE_DIR "/usr/src/googletest"
+                      UPDATE_COMMAND "")
+ 
+ #FetchContent_MakeAvailable(googletest) # Not available in CMake 3.13 :-( Let's do it manually:

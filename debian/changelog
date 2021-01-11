@@ -1,3 +1,9 @@
+sdbus-cpp (0.8.3-3) unstable; urgency=medium
+
+  * Miss dependencies on libsdbus-c++-dev package
+
+ -- Shengjing Zhu <zhsj@debian.org>  Mon, 11 Jan 2021 12:15:10 +0800
+
 sdbus-cpp (0.8.3-2) unstable; urgency=medium
 
   * Source-only upload for testing migration.

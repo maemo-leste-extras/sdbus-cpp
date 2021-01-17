@@ -6,7 +6,7 @@ Rules-Requires-Root: no
 Build-Depends:
  cmake,
  dbus,
- debhelper-compat (= 13),
+ debhelper-compat (= 12),
  googletest,
  libexpat1-dev,
  libsystemd-dev,
